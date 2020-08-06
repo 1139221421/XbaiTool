@@ -3,11 +3,33 @@
 <head>
     <title>网页转word文档</title>
 </head>
+<style>
+
+    .line :last-child {
+        margin-top: 30px;
+    }
+
+    button {
+        width: 80px;
+        height: 32px;
+    }
+
+    input {
+        width: 300px;
+        height: 26px;
+    }
+</style>
 <body>
 <div style="width: 500px;text-align: center;margin: 240px auto">
     <h1>网页转word文档</h1>
-    <input id="url" style="width: 300px;height: 26px" maxlength="500" autofocus>
-    <button>下载</button>
+    <div class="line">
+        <input id="url" maxlength="500" autofocus>
+        <button id="button">下载</button>
+    </div>
+    <div class="line">
+        <input id="url1" maxlength="500" autofocus>
+        <button id="button1">下载1</button>
+    </div>
 </div>
 </body>
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -21,7 +43,7 @@
                 window.location.href = window.location.origin + window.location.pathname
             }
         }
-        $("button").click(function () {
+        $("#button").click(function () {
             let url = $('#url').val();
             if (!url || !url.trim()) {
                 alert('请输入网页地址！');
@@ -31,7 +53,19 @@
                 alert('请输入正确的网页地址！');
                 return;
             }
-            window.location.href = 'http://localhost:8084/tool/download?url=' + encodeURIComponent(url);
+            window.location.href = window.location.origin + '/simpletext/download?url=' + encodeURIComponent(url);
+        });
+        $("#button1").click(function () {
+            let url = $('#url1').val();
+            if (!url || !url.trim()) {
+                alert('请输入网页地址！');
+                return;
+            }
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                alert('请输入正确的网页地址！');
+                return;
+            }
+            window.location.href = window.location.origin + '/simpletext/download1?url=' + encodeURIComponent(url);
         });
     });
 </script>

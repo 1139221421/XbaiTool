@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class VideoController {
 
     @RequestMapping("/index.html")
-    public String video() {
+    public String index() {
         return "index";
     }
 }

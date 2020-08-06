@@ -90,6 +90,67 @@ public class WordController {
         }
     }
 
+    @RequestMapping("/download1")
+    @ResponseBody
+    public void download1(HttpServletRequest request, HttpServletResponse response, String url) {
+        //创建 POIFSFileSystem 对象
+        POIFSFileSystem poifs = new POIFSFileSystem();
+        //获取DirectoryEntry
+        DirectoryEntry directory = poifs.getRoot();
+        //创建输出流
+        OutputStream out = null;
+        InputStream in = null;
+        FileInputStream fin = null;
+        File file = null;
+        try {
+            URL uri = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
+            // 设置10秒的相应时间
+            conn.setConnectTimeout(10 * 1000);
+            //模拟浏览器访问，防止网站屏蔽
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.19 Safari/537.36");
+            //得到输入流
+            in = conn.getInputStream();
+            byte[] bytes = new byte[1024];
+            while (in.read(bytes) > -1) {
+                System.out.println(new String(bytes, "GBK"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.errorMsg(request, response);
+        } finally {
+            if (fin != null) {
+                try {
+                    fin.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                poifs.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (file != null) {
+                file.delete();
+            }
+        }
+    }
+
     private void errorMsg(HttpServletRequest request, HttpServletResponse response) {
         try {
             response.sendRedirect(request.getContextPath() + "index.html?msg=" + java.net.URLEncoder.encode("地址解析失败，请查看地址是否正确！", DEFAULT_CHARSET));
@@ -97,6 +158,7 @@ public class WordController {
             ioException.printStackTrace();
         }
     }
+
 
     /**
      * 创建临时文件,将流写进临时文件
@@ -135,7 +197,7 @@ public class WordController {
     }
 
     @RequestMapping("/index.html")
-    public String word() {
+    public String index(HttpServletRequest request, HttpServletResponse response) {
         return "index";
     }
 

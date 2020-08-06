@@ -8,11 +8,17 @@
         <version>2.3.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.lx</groupId>
+    <groupId>com.lxl</groupId>
     <artifactId>xbai-tool</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>xbai-tool</name>
     <description>Demo project for Spring Boot</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>spider</module>
+        <module>word</module>
+        <module>video</module>
+    </modules>
 
     <properties>
         <java.version>1.8</java.version>
@@ -41,11 +47,6 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.14</version>
-        </dependency>
     </dependencies>
 
     <build>
